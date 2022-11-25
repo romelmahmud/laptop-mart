@@ -1,10 +1,19 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Container from "../Container/Container";
-
 import logo from "../../assets/images/logo.png";
+import { AuthContext } from "../../context/auth/authContext";
+import toast from "react-hot-toast";
 
 const Header = () => {
+  const navigate = useNavigate();
+  const { user, logOut } = useContext(AuthContext);
+  const handleLogOut = () => {
+    logOut().then(() => {
+      navigate("/");
+      toast.success("User Successfully Logout");
+    });
+  };
   return (
     <div className="shadow-sm bg-violet-100">
       <Container>
@@ -50,9 +59,20 @@ const Header = () => {
                 <Link to="/blog">Blog</Link>
               </li>
 
-              <li className="text-lg text-violet-900 font-medium">
-                <Link to="/login">Login</Link>
-              </li>
+              {user?.uid ? (
+                <>
+                  <li className="text-lg text-violet-900 font-medium">
+                    <button onClick={handleLogOut}>Log Out</button>
+                  </li>
+                  <li className="text-lg text-violet-900 font-medium">
+                    <Link to="/dashboard">Dashboard</Link>
+                  </li>
+                </>
+              ) : (
+                <li className="text-lg text-violet-900 font-medium">
+                  <Link to="/login">Login</Link>
+                </li>
+              )}
             </ul>
           </div>
           {/* <div className="navbar-end">

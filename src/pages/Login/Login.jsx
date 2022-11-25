@@ -1,10 +1,29 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { GoogleAuthProvider } from "firebase/auth";
 import googleLogo from "../../assets/images/google.png";
 import loginImage from "../../assets/images/login.jpg";
+import { AuthContext } from "../../context/auth/authContext";
 
 const Login = () => {
   const [error, setError] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const { loginProvider, signIn, user } = useContext(AuthContext);
+
+  const googleProvider = new GoogleAuthProvider();
+  const from = location.state?.from?.pathname || "/";
+
+  const handleGoogleLogin = () => {
+    setError(false);
+    loginProvider(googleProvider)
+      .then(() => {
+        console.log(user);
+        navigate(from, { replace: true });
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <section
       className="hero bg-white"
@@ -71,7 +90,7 @@ const Login = () => {
 
             <div className="flex justify-between ">
               <button
-                // onClick={handleGoogleLogin}
+                onClick={handleGoogleLogin}
                 className="py-3 px-6  border border-gray-400  mr-4 text-gray-500 text-lg font-medium hover:bg-gray-200 transition rounded hover:text-violet-900 w-full"
               >
                 {" "}
