@@ -13,7 +13,7 @@ const Login = () => {
     formState: { errors },
     handleSubmit,
   } = useForm();
-  const [error, setError] = useState(false);
+  const [loginerror, setLoginError] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
   const { loginProvider, signIn, user } = useContext(AuthContext);
@@ -21,8 +21,23 @@ const Login = () => {
   const googleProvider = new GoogleAuthProvider();
   const from = location.state?.from?.pathname || "/";
 
+  const handleLogin = (data) => {
+    setLoginError("");
+    signIn(data.email, data.password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        toast.success("User Login Successful");
+        navigate(from, { replace: true });
+      })
+      .catch((error) => {
+        // console.log(error.message);
+        toast.error(error.message);
+      });
+  };
+
   const handleGoogleLogin = () => {
-    setError(false);
+    setLoginError("");
     loginProvider(googleProvider)
       .then(() => {
         navigate(from, { replace: true });
@@ -46,29 +61,34 @@ const Login = () => {
             </div>
 
             <form
-              // onSubmit={submitHandler}
+              onSubmit={handleSubmit(handleLogin)}
               className="mt-4 grid grid-cols-12 gap-6"
             >
               <div className="col-span-12">
                 <input
                   type="text"
                   placeholder="email"
-                  onFocus={() => setError(false)}
+                  {...register("email", {
+                    required: "Email Address is required",
+                  })}
                   className="input input-bordered w-full border-gray-400 bg-gray-50 "
                 />
+                {errors.email && (
+                  <p className="text-red-600">{errors.email?.message}</p>
+                )}
               </div>
 
               <div className="col-span-12 ">
                 <input
                   type="password"
                   placeholder="password"
-                  onFocus={() => setError(false)}
+                  {...register("password", {
+                    required: "password is required",
+                  })}
                   className="input input-bordered w-full border-gray-400 bg-gray-50 "
                 />
-              </div>
-              <div className="col-span-12 ">
-                {error && (
-                  <p className="text-xl text-red-500">Invalid Credential</p>
+                {errors.password && (
+                  <p className="text-red-600">{errors.password?.message}</p>
                 )}
               </div>
 
