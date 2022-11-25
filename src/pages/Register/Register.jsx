@@ -16,7 +16,7 @@ const Register = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [registerError, setRegisterError] = useState("");
-  const { createUser, updateUser, loginProvider, user } =
+  const { createUser, updateUserProfile, loginProvider, user } =
     useContext(AuthContext);
 
   const googleProvider = new GoogleAuthProvider();
@@ -24,7 +24,27 @@ const Register = () => {
   const from = location.state?.from?.pathname || "/";
 
   const handleRegister = (data) => {
-    console.log(data);
+    // console.log(data);
+    setRegisterError("");
+    createUser(data.email, data.password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        toast.success("User Created Successfully.");
+        const userInfo = {
+          displayName: data.name,
+        };
+        updateUserProfile(userInfo)
+          .then(() => {
+            // saveUser(data.name, data.email);
+            console.log(user);
+          })
+          .catch((err) => console.log(err));
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error(error.message);
+      });
   };
 
   const handleGoogleLogin = () => {
