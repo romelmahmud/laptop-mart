@@ -13,7 +13,7 @@ const Login = () => {
     formState: { errors },
     handleSubmit,
   } = useForm();
-  const [loginerror, setLoginError] = useState("");
+  const [loginError, setLoginError] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
   const { loginProvider, signIn, user } = useContext(AuthContext);
