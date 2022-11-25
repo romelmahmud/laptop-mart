@@ -5,11 +5,17 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import googleLogo from "../../assets/images/google.png";
 import registerImage from "../../assets/images/register.jpg";
 import { AuthContext } from "../../context/auth/authContext";
+import { useForm } from "react-hook-form";
 
 const Register = () => {
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
   const navigate = useNavigate();
   const location = useLocation();
-  const [error, setError] = useState(false);
+  const [registerError, setRegisterError] = useState("");
   const { createUser, updateUser, loginProvider, user } =
     useContext(AuthContext);
 
@@ -17,13 +23,16 @@ const Register = () => {
 
   const from = location.state?.from?.pathname || "/";
 
+  const handleRegister = (data) => {
+    console.log(data);
+  };
+
   const handleGoogleLogin = () => {
-    setError(false);
+    setRegisterError("");
     loginProvider(googleProvider)
       .then(() => {
-        
         navigate(from, { replace: true });
-        toast.success("Google Login Successful")
+        toast.success("Google Login Successful");
       })
       .catch((err) => console.log(err));
   };
@@ -44,44 +53,63 @@ const Register = () => {
             </div>
 
             <form
-              // onSubmit={submitHandler}
+              onSubmit={handleSubmit(handleRegister)}
               className="mt-4 grid grid-cols-12 gap-6"
             >
               <div className="col-span-12">
                 <input
                   type="text"
                   placeholder="name"
-                  onFocus={() => setError(false)}
+                  {...register("name", {
+                    required: "Name is Required",
+                  })}
                   className="input input-bordered w-full border-gray-400 bg-gray-50 "
                 />
+                {errors.name && (
+                  <p className="text-red-500">{errors.name.message}</p>
+                )}
               </div>
               <div className="col-span-12">
                 <input
                   type="text"
                   placeholder="email"
-                  onFocus={() => setError(false)}
+                  {...register("email", {
+                    required: true,
+                  })}
                   className="input input-bordered w-full border-gray-400 bg-gray-50 "
                 />
+                {errors.email && (
+                  <p className="text-red-500">{errors.email.message}</p>
+                )}
               </div>
 
               <div className="col-span-12 ">
                 <input
                   type="password"
                   placeholder="password"
-                  onFocus={() => setError(false)}
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: {
+                      value: 6,
+                      message: "Password must be 6 characters long",
+                    },
+                  })}
                   className="input input-bordered w-full border-gray-400 bg-gray-50 "
                 />
+                {errors.password && (
+                  <p className="text-red-500">{errors.password.message}</p>
+                )}
               </div>
               <div className="col-span-9 ">
-                <select className="select select-bordered w-full border-gray-400 bg-gray-50">
-                  <option>Buyer</option>
-                  <option>Seller</option>
+                <select
+                  {...register("role")}
+                  className="select select-bordered w-full border-gray-400 bg-gray-50"
+                >
+                  <option selected value="buyer">
+                    Buyer
+                  </option>
+                  <option value="seller">Seller</option>
                 </select>
-              </div>
-              <div className="col-span-12 ">
-                {error && (
-                  <p className="text-xl text-red-500">Invalid Credential</p>
-                )}
               </div>
 
               <div className="col-span-12 sm:flex sm:items-center sm:gap-4">
