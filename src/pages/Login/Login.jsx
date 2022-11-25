@@ -10,7 +10,7 @@ const Login = () => {
       className="hero bg-white"
       style={{ backgroundImage: `url("${loginImage}")` }}
     >
-      <div className="hero-overlay bg-opacity-60"></div>
+      <div className="hero-overlay bg-opacity-50"></div>
       <div className="flex justify-center items-center lg:min-h-screen  lg:grid-cols-12">
         <div className=" px-8 py-8  lg:col-span-7 xl:col-span-6   rounded-md bg-gray-50 shadow-xl md:w-[450px]">
           <div className="">
