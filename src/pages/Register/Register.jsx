@@ -49,6 +49,12 @@ const Register = () => {
                   className="input input-bordered w-full border-gray-400 bg-gray-50 "
                 />
               </div>
+              <div className="col-span-9 ">
+                <select className="select select-bordered w-full border-gray-400 bg-gray-50">
+                  <option>Buyer</option>
+                  <option>Seller</option>
+                </select>
+              </div>
               <div className="col-span-12 ">
                 {error && (
                   <p className="text-xl text-red-500">Invalid Credential</p>
