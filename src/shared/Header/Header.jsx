@@ -1,14 +1,14 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Container from "../Container/Container";
 
 import logo from "../../assets/images/logo.png";
 
 const Header = () => {
   return (
-    <div className="shadow-sm">
+    <div className="shadow-sm bg-violet-100">
       <Container>
-        <div className="navbar bg-base-100">
+        <div className="navbar ">
           <div className="navbar-start">
             <div className="dropdown">
               <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -32,26 +32,26 @@ const Header = () => {
                 className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
               >
                 <li>
-                  <NavLink to="/blog">Blog</NavLink>
+                  <Link to="/blog">Blog</Link>
                 </li>
 
                 <li>
-                  <NavLink to="/login">Login</NavLink>
+                  <Link to="/login">Login</Link>
                 </li>
               </ul>
             </div>
-            <NavLink to="/" className="w-[120px]">
+            <Link to="/" className="w-[120px]">
               <img src={logo} alt="logo" />
-            </NavLink>
+            </Link>
           </div>
           <div className="navbar-end hidden lg:flex">
             <ul className="menu menu-horizontal p-0">
-              <li className="text-lg ">
-                <NavLink to="/blog">Blog</NavLink>
+              <li className="text-lg text-violet-900 font-medium">
+                <Link to="/blog">Blog</Link>
               </li>
 
-              <li className="text-lg">
-                <NavLink to="/login">Login</NavLink>
+              <li className="text-lg text-violet-900 font-medium">
+                <Link to="/login">Login</Link>
               </li>
             </ul>
           </div>
