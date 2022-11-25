@@ -6,6 +6,8 @@ import Categories from "../pages/Categories/Categories";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import Error from "../pages/Error/Error";
 import Home from "../pages/Home/Home";
+import Login from "../pages/Login/Login";
+import Register from "../pages/Register/Register";
 
 export const routes = createBrowserRouter([
   {
@@ -16,6 +18,14 @@ export const routes = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
       },
       {
         path: "/blog",
