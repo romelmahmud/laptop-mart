@@ -20,7 +20,7 @@ const AddProduct = () => {
       return data.data;
     },
   });
-  console.log(categories);
+  // console.log(categories);
 
   const handleAddProduct = (data) => {
     // console.log(data);
@@ -37,9 +37,35 @@ const AddProduct = () => {
       body: formData,
     })
       .then((res) => res.json())
-      .then((data) => {
-        const imgUrl = data.data.display_url;
+      .then((imgData) => {
+        const imgUrl = imgData.data.display_url;
         console.log(imgUrl);
+        const productInfo = {
+          // category: "buyer",
+          // condition: "excellent",
+          // description: "dfafdsa",
+          // location:"Uttara, Dhaka",
+          // name:"wrwew",
+          // originalPrice:"1244",
+          // productImage: FileList {0: File, length: 1},
+          // purchaseYear: "1212",
+          // resalePrice: "12121",
+          // yearOfUses: "232"
+          name: data.name,
+          category: data.category,
+          condition: data.condition,
+          description: data.description,
+          location: data.location,
+          originalPrice: data.originalPrice,
+          resalePrice: data.resalePrice,
+          productImage: imgUrl,
+          purchaseYear: data.purchaseYear,
+          yearOfUses: data.yearOfUses,
+        };
+        console.log(productInfo);
+        axios
+          .post("http://localhost:8000/products", productInfo)
+          .then((res) => console.log(res));
       });
   };
   if (isLoading) {
