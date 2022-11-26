@@ -46,10 +46,29 @@ const Login = () => {
     setLoginError("");
     loginProvider(googleProvider)
       .then(() => {
+        const name = user.displayName;
+        const email = user.email;
+        const role = "buyer";
+        saveUser(name, email, role);
         navigate(from, { replace: true });
         toast.success("Google Login Successful");
       })
       .catch((err) => console.log(err));
+  };
+  // save user on database
+  const saveUser = (name, email, role) => {
+    const userInfo = { name, email, role };
+    fetch("http://localhost:8000/users", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(userInfo),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setLoginUserEmail(email);
+      });
   };
   return (
     <section

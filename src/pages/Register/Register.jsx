@@ -53,6 +53,21 @@ const Register = () => {
         toast.error(error.message);
       });
   };
+
+  const handleGoogleLogin = () => {
+    setRegisterError("");
+    loginProvider(googleProvider)
+      .then(() => {
+        const name = user.displayName;
+        const email = user.email;
+        const role = "buyer";
+        saveUser(name, email, role);
+        navigate(from, { replace: true });
+        toast.success("Google Login Successful");
+      })
+      .catch((err) => console.log(err));
+  };
+
   // save user on database
   const saveUser = (name, email, role) => {
     const userInfo = { name, email, role };
@@ -67,16 +82,6 @@ const Register = () => {
       .then((data) => {
         setCreatedUserEmail(email);
       });
-  };
-
-  const handleGoogleLogin = () => {
-    setRegisterError("");
-    loginProvider(googleProvider)
-      .then(() => {
-        navigate(from, { replace: true });
-        toast.success("Google Login Successful");
-      })
-      .catch((err) => console.log(err));
   };
 
   return (
