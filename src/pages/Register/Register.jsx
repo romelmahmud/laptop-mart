@@ -6,6 +6,7 @@ import googleLogo from "../../assets/images/google.png";
 import registerImage from "../../assets/images/register.jpg";
 import { AuthContext } from "../../context/auth/authContext";
 import { useForm } from "react-hook-form";
+import useToken from "../../hooks/useToken";
 
 const Register = () => {
   const {
@@ -16,12 +17,18 @@ const Register = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [registerError, setRegisterError] = useState("");
+  const [createdUserEmail, setCreatedUserEmail] = useState("");
+  const [token] = useToken(createdUserEmail);
   const { createUser, updateUserProfile, loginProvider, user } =
     useContext(AuthContext);
 
   const googleProvider = new GoogleAuthProvider();
 
   const from = location.state?.from?.pathname || "/";
+
+  if (token) {
+    navigate(from, { replace: true });
+  }
 
   const handleRegister = (data) => {
     // console.log(data);
@@ -36,7 +43,7 @@ const Register = () => {
         };
         updateUserProfile(userInfo)
           .then(() => {
-            // saveUser(data.name, data.email);
+            saveUser(data.name, data.email, data.role);
             console.log(user);
           })
           .catch((err) => console.log(err));
@@ -44,6 +51,21 @@ const Register = () => {
       .catch((error) => {
         console.log(error);
         toast.error(error.message);
+      });
+  };
+  // save user on database
+  const saveUser = (name, email, role) => {
+    const userInfo = { name, email, role };
+    fetch("http://localhost:8000/users", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(userInfo),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setCreatedUserEmail(email);
       });
   };
 

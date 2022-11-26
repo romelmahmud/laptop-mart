@@ -6,6 +6,7 @@ import loginImage from "../../assets/images/login.jpg";
 import { AuthContext } from "../../context/auth/authContext";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import useToken from "../../hooks/useToken";
 
 const Login = () => {
   const {
@@ -17,9 +18,14 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { loginProvider, signIn, user } = useContext(AuthContext);
-
+  const [loginUserEmail, setLoginUserEmail] = useState("");
+  const [token] = useToken(loginUserEmail);
   const googleProvider = new GoogleAuthProvider();
   const from = location.state?.from?.pathname || "/";
+
+  if (token) {
+    navigate(from, { replace: true });
+  }
 
   const handleLogin = (data) => {
     setLoginError("");
@@ -27,8 +33,8 @@ const Login = () => {
       .then((result) => {
         const user = result.user;
         console.log(user);
+        setLoginUserEmail(data.email);
         toast.success("User Login Successful");
-        navigate(from, { replace: true });
       })
       .catch((error) => {
         // console.log(error.message);
