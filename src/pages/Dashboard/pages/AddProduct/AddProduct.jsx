@@ -1,6 +1,8 @@
 import React from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import Spinner from "../../../../shared/Spinner/Spinner";
 
 const AddProduct = () => {
   const {
@@ -8,6 +10,15 @@ const AddProduct = () => {
     formState: { errors },
     handleSubmit,
   } = useForm();
+  const { data: categories, isLoading } = useQuery({
+    queryKey: ["categories"],
+    queryFn: async () => {
+      const res = await fetch("http://localhost:8000/categories");
+      const data = await res.json();
+      return data;
+    },
+  });
+  console.log(categories);
 
   const handleAddProduct = (data) => {
     // console.log(data);
@@ -29,6 +40,9 @@ const AddProduct = () => {
         console.log(imgUrl);
       });
   };
+  if (isLoading) {
+    return <Spinner />;
+  }
   return (
     <div className="flex justify-center  lg:min-h-screen  ">
       <div className=" px-8 py-8  bg-gray-50  w-full">
