@@ -4,9 +4,11 @@ import error from "../../assets/images/404.png";
 
 const Error = () => {
   return (
-    <div class="grid h-screen place-content-center ">
+    <div className="grid h-screen place-content-center ">
       <img src={error} alt="" className="w-2/3" />
-      <p class="uppercase tracking-widest text-red-600-500">404 | Not Found</p>
+      <p className="uppercase tracking-widest text-red-600-500">
+        404 | Not Found
+      </p>
       <div>
         <Link
           to={`/`}
