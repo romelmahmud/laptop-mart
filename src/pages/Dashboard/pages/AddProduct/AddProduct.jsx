@@ -8,6 +8,10 @@ const AddProduct = () => {
     formState: { errors },
     handleSubmit,
   } = useForm();
+
+  const handleAddProduct = (data) => {
+    console.log(data);
+  };
   return (
     <div className="flex justify-center  lg:min-h-screen  ">
       <div className=" px-8 py-8  bg-gray-50  w-full">
@@ -19,7 +23,7 @@ const AddProduct = () => {
           </div>
 
           <form
-            // onSubmit={handleSubmit(handleRegister)}
+            onSubmit={handleSubmit(handleAddProduct)}
             className="mt-4 grid grid-cols-12 gap-6"
           >
             <div className="col-span-12 md:col-span-6 lg:col-span-4">
@@ -30,8 +34,14 @@ const AddProduct = () => {
               </label>
               <input
                 type="file"
+                {...register("productImage", {
+                  required: "Product image is Required",
+                })}
                 className="file-input file-input-bordered w-full border-gray-400 bg-gray-50 text-lg text-gray-600"
               />
+              {errors.productImage && (
+                <p className="text-red-500">{errors.productImage.message}</p>
+              )}
             </div>
             <div className=" hidden md:block md:col-span-6 lg:col-span-8"></div>
             <div className="col-span-12 md:col-span-8 lg:col-span-6 ">
@@ -59,9 +69,14 @@ const AddProduct = () => {
                 </span>
               </label>
               <select
-                {...register("role")}
+                {...register("category", {
+                  required: "Product category is Required",
+                })}
                 className="select select-bordered w-full border-gray-400 bg-gray-50 text-lg text-gray-600"
               >
+                {errors.category && (
+                  <p className="text-red-500">{errors.category.message}</p>
+                )}
                 <option selected value="buyer">
                   Buyer
                 </option>
@@ -75,9 +90,14 @@ const AddProduct = () => {
                 </span>
               </label>
               <select
-                {...register("condition")}
+                {...register("condition", {
+                  required: "Product's condition is Required",
+                })}
                 className="select select-bordered w-full border-gray-400 bg-gray-50 text-lg text-gray-600"
               >
+                {errors.condition && (
+                  <p className="text-red-500">{errors.condition.message}</p>
+                )}
                 <option></option>
                 <option value="excellent">Excellent</option>
                 <option value="good">Good</option>
@@ -185,8 +205,14 @@ const AddProduct = () => {
               </label>
               <textarea
                 rows="5"
+                {...register("description", {
+                  required: "Product's description is required",
+                })}
                 className="textarea textarea-bordered border-gray-400 bg-gray-50 w-full text-lg text-gray-600"
               ></textarea>
+              {errors.description && (
+                <p className="text-red-500">{errors.description.message}</p>
+              )}
             </div>
             <div className="hidden lg:block md:col-span-4"></div>
 
