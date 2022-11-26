@@ -30,11 +30,11 @@ const AddProduct = () => {
               </label>
               <input
                 type="file"
-                className="file-input file-input-bordered w-full border-gray-400 bg-gray-50"
+                className="file-input file-input-bordered w-full border-gray-400 bg-gray-50 text-lg text-gray-600"
               />
             </div>
-            <div className="col-span-12 md:col-span-6 lg:col-span-8"></div>
-            <div className="col-span-12 md:col-span-6 lg:col-span-6">
+            <div className=" hidden md:block md:col-span-6 lg:col-span-8"></div>
+            <div className="col-span-12 md:col-span-8 lg:col-span-6 ">
               <label className="label">
                 <span className="label-text text-lg font-medium text-gray-500">
                   Product Title
@@ -45,13 +45,13 @@ const AddProduct = () => {
                 {...register("name", {
                   required: "Product title is Required",
                 })}
-                className="input input-bordered w-full border-gray-400 bg-gray-50 "
+                className="input input-bordered w-full border-gray-400 bg-gray-50 text-lg text-gray-600"
               />
               {errors.name && (
                 <p className="text-red-500">{errors.name.message}</p>
               )}
             </div>
-            <div className="col-span-12 md:col-span-6"></div>
+            <div className="hidden md:block md:col-span-4 lg:col-span-6"></div>
             <div className=" col-span-12 md:col-span-6 lg:col-span-3">
               <label className="label">
                 <span className="label-text text-lg font-medium text-gray-500">
@@ -60,7 +60,7 @@ const AddProduct = () => {
               </label>
               <select
                 {...register("role")}
-                className="select select-bordered w-full border-gray-400 bg-gray-50"
+                className="select select-bordered w-full border-gray-400 bg-gray-50 text-lg text-gray-600"
               >
                 <option selected value="buyer">
                   Buyer
@@ -76,7 +76,7 @@ const AddProduct = () => {
               </label>
               <select
                 {...register("condition")}
-                className="select select-bordered w-full border-gray-400 bg-gray-50"
+                className="select select-bordered w-full border-gray-400 bg-gray-50 text-lg text-gray-600"
               >
                 <option></option>
                 <option value="excellent">Excellent</option>
@@ -84,7 +84,7 @@ const AddProduct = () => {
                 <option value="fair">Fair</option>
               </select>
             </div>
-            <div className="col-span-12 md:col-span-6 lg:col-span-6"></div>
+            <div className="hidden lg:block lg:col-span-6"></div>
 
             <div className="col-span-12 md:col-span-6 lg:col-span-4 ">
               <label className="label">
@@ -97,7 +97,7 @@ const AddProduct = () => {
                 {...register("originalPrice", {
                   required: true,
                 })}
-                className="input input-bordered w-full border-gray-400 bg-gray-50 "
+                className="input input-bordered w-full border-gray-400 bg-gray-50 text-lg text-gray-600"
               />
               {errors.originalPrice && (
                 <p className="text-red-500">{errors.originalPrice.message}</p>
@@ -114,13 +114,13 @@ const AddProduct = () => {
                 {...register("resalePrice", {
                   required: true,
                 })}
-                className="input input-bordered w-full border-gray-400 bg-gray-50 "
+                className="input input-bordered w-full border-gray-400 bg-gray-50 text-lg text-gray-600"
               />
               {errors.resalePrice && (
                 <p className="text-red-500">{errors.resalePrice.message}</p>
               )}
             </div>
-            <div className="col-span-12 md:col-span-6 lg:col-span-4"></div>
+            <div className="hidden lg:block lg:col-span-4"></div>
             <div className="col-span-12 md:col-span-6 lg:col-span-4 ">
               <label className="label">
                 <span className="label-text text-lg font-medium text-gray-500">
@@ -132,7 +132,7 @@ const AddProduct = () => {
                 {...register("purchaseYear", {
                   required: true,
                 })}
-                className="input input-bordered w-full border-gray-400 bg-gray-50 "
+                className="input input-bordered w-full border-gray-400 bg-gray-50 text-lg text-gray-600"
               />
               {errors.purchaseYear && (
                 <p className="text-red-500">{errors.purchaseYear.message}</p>
@@ -149,13 +149,13 @@ const AddProduct = () => {
                 {...register("yearOfUses", {
                   required: true,
                 })}
-                className="input input-bordered w-full border-gray-400 bg-gray-50 "
+                className="input input-bordered w-full border-gray-400 bg-gray-50 text-lg text-gray-600"
               />
               {errors.yearOfUses && (
                 <p className="text-red-500">{errors.yearOfUses.message}</p>
               )}
             </div>
-            <div className="col-span-12 md:col-span-6 lg:col-span-4"></div>
+            <div className="hidden lg:block lg:col-span-4"></div>
 
             <div className="col-span-12 md:col-span-6 lg:col-span-4 ">
               <label className="label">
@@ -169,13 +169,13 @@ const AddProduct = () => {
                 {...register("location", {
                   required: "location is required",
                 })}
-                className="input input-bordered w-full border-gray-400 bg-gray-50 "
+                className="input input-bordered w-full border-gray-400 bg-gray-50 text-lg text-gray-600 "
               />
               {errors.location && (
                 <p className="text-red-500">{errors.location.message}</p>
               )}
             </div>
-            <div className="col-span-12 md:col-span-6 lg:col-span-8"></div>
+            <div className="hidden md:block md:col-span-6 lg:col-span-8"></div>
 
             <div className="col-span-12 md:col-span-8">
               <label className="label">
@@ -184,12 +184,11 @@ const AddProduct = () => {
                 </span>
               </label>
               <textarea
-                rows="4"
-                cols="100"
-                className="textarea textarea-bordered bg-gray-50"
+                rows="5"
+                className="textarea textarea-bordered border-gray-400 bg-gray-50 w-full text-lg text-gray-600"
               ></textarea>
             </div>
-            <div className="col-span-12 md:col-span-6 lg:col-span-4"></div>
+            <div className="hidden lg:block md:col-span-4"></div>
 
             <div className="col-span-12 md:col-span-6 lg:col-span-4">
               <button
