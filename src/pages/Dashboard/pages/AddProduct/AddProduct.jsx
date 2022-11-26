@@ -2,6 +2,7 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import axios from "axios";
 import Spinner from "../../../../shared/Spinner/Spinner";
 
 const AddProduct = () => {
@@ -13,9 +14,10 @@ const AddProduct = () => {
   const { data: categories, isLoading } = useQuery({
     queryKey: ["categories"],
     queryFn: async () => {
-      const res = await fetch("http://localhost:8000/categories");
-      const data = await res.json();
-      return data;
+      // const res = await fetch("http://localhost:8000/categories");
+      // const data = await res.json();
+      const data = await axios.get("http://localhost:8000/categories");
+      return data.data;
     },
   });
   console.log(categories);
