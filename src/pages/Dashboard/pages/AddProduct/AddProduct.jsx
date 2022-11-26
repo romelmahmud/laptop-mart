@@ -10,7 +10,24 @@ const AddProduct = () => {
   } = useForm();
 
   const handleAddProduct = (data) => {
-    console.log(data);
+    // console.log(data);
+    // console.log(data.productImage[0]);
+    const formData = new FormData();
+    formData.append("image", data.productImage[0]);
+
+    // uploading Image on ImgBB
+
+    const url = `https://api.imgbb.com/1/upload?key=${process.env.REACT_APP_IMGBB_API_KEY}`;
+
+    fetch(url, {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        const imgUrl = data.data.display_url;
+        console.log(imgUrl);
+      });
   };
   return (
     <div className="flex justify-center  lg:min-h-screen  ">
