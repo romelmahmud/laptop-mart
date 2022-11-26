@@ -8,7 +8,7 @@ const DashboardLayout = () => {
   // const { user } = useContext(AuthContext);
   // const [isAdmin] = useAdmin(user?.email)
   return (
-    <div>
+    <div c>
       <Header />
       <div className="drawer drawer-mobile">
         <input
@@ -19,7 +19,7 @@ const DashboardLayout = () => {
         <div className="drawer-content">
           <Outlet></Outlet>
         </div>
-        <div className="drawer-side">
+        <div className="drawer-side  bg-violet-50 border-r-2">
           <label htmlFor="dashboard-drawer" className="drawer-overlay"></label>
           <ul className="menu p-4 w-80 text-base-content">
             <li>
