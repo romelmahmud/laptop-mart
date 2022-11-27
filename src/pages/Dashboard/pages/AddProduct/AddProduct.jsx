@@ -258,7 +258,25 @@ const AddProduct = () => {
                 <p className="text-red-500">{errors.location.message}</p>
               )}
             </div>
-            <div className="hidden md:block md:col-span-6 lg:col-span-8"></div>
+            <div className="col-span-12 md:col-span-6 lg:col-span-4 ">
+              <label className="label">
+                <span className="label-text text-lg font-medium text-gray-500">
+                  Phone Number
+                </span>
+              </label>
+              <input
+                type="tel"
+                placeholder="+0123456789"
+                {...register("phoneNumber", {
+                  required: "Phone number is required",
+                })}
+                className="input input-bordered w-full border-gray-400 bg-gray-50 text-lg text-gray-600 "
+              />
+              {errors.phoneNumber && (
+                <p className="text-red-500">{errors.phoneNumber.message}</p>
+              )}
+            </div>
+            <div className="hidden lg:block  lg:col-span-4"></div>
 
             <div className="col-span-12 md:col-span-8">
               <label className="label">
