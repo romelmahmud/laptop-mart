@@ -18,16 +18,18 @@ const Categories = () => {
   }
 
   return (
-    <Container>
-      <h3 className="text-3xl font-semibold border-l-[6px] border-violet-900 pl-5">
-        All Categories:
-      </h3>
-      <div className="my-10  grid  grid-cols-2  md:grid-cols-3  lg:grid-cols-6 gap-4 ">
-        {categories?.map((category) => (
-          <CategoryButton key={category._id} category={category} />
-        ))}
-      </div>
-    </Container>
+    <div className="my-28">
+      <Container>
+        <h3 className="text-3xl font-semibold border-l-[6px] border-violet-900 pl-5">
+          All Categories:
+        </h3>
+        <div className="my-10  grid  grid-cols-2  md:grid-cols-3  lg:grid-cols-6 gap-4 ">
+          {categories?.map((category) => (
+            <CategoryButton key={category._id} category={category} />
+          ))}
+        </div>
+      </Container>
+    </div>
   );
 };
 
