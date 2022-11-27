@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import Spinner from "../../../../shared/Spinner/Spinner";
+import { AuthContext } from "../../../../context/auth/authContext";
+import { format } from "date-fns";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const AddProduct = () => {
+  const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
+
   const {
     register,
     formState: { errors },
@@ -14,17 +20,12 @@ const AddProduct = () => {
   const { data: categories, isLoading } = useQuery({
     queryKey: ["categories"],
     queryFn: async () => {
-      // const res = await fetch("http://localhost:8000/categories");
-      // const data = await res.json();
       const data = await axios.get("http://localhost:8000/categories");
       return data.data;
     },
   });
-  // console.log(categories);
 
   const handleAddProduct = (data) => {
-    // console.log(data);
-    // console.log(data.productImage[0]);
     const formData = new FormData();
     formData.append("image", data.productImage[0]);
 
@@ -39,18 +40,10 @@ const AddProduct = () => {
       .then((res) => res.json())
       .then((imgData) => {
         const imgUrl = imgData.data.display_url;
-        console.log(imgUrl);
+
+        const date = format(new Date(), "PP");
+
         const productInfo = {
-          // category: "buyer",
-          // condition: "excellent",
-          // description: "dfafdsa",
-          // location:"Uttara, Dhaka",
-          // name:"wrwew",
-          // originalPrice:"1244",
-          // productImage: FileList {0: File, length: 1},
-          // purchaseYear: "1212",
-          // resalePrice: "12121",
-          // yearOfUses: "232"
           name: data.name,
           category: data.category,
           condition: data.condition,
@@ -61,11 +54,20 @@ const AddProduct = () => {
           productImage: imgUrl,
           purchaseYear: data.purchaseYear,
           yearOfUses: data.yearOfUses,
+          sellerEmail: user.email,
+          sellerName: user.displayName,
+          created: date,
+          status: "unsold",
         };
-        console.log(productInfo);
+
         axios
           .post("http://localhost:8000/products", productInfo)
-          .then((res) => console.log(res));
+          .then((res) => {
+            if (res.data.acknowledged) {
+              toast.success("Product added successfully");
+              navigate("/dashboard/myproducts");
+            }
+          });
       });
   };
   if (isLoading) {
@@ -136,10 +138,12 @@ const AddProduct = () => {
                 {errors.category && (
                   <p className="text-red-500">{errors.category.message}</p>
                 )}
-                <option selected value="buyer">
-                  Buyer
-                </option>
-                <option value="seller">Seller</option>
+                <option>Choose one</option>
+                {categories?.map((category) => (
+                  <option key={category._id} value={category.name}>
+                    {category.name}
+                  </option>
+                ))}
               </select>
             </div>
             <div className=" col-span-12 md:col-span-6 lg:col-span-3 ">
@@ -157,7 +161,7 @@ const AddProduct = () => {
                 {errors.condition && (
                   <p className="text-red-500">{errors.condition.message}</p>
                 )}
-                <option></option>
+                <option>Product Condition</option>
                 <option value="excellent">Excellent</option>
                 <option value="good">Good</option>
                 <option value="fair">Fair</option>
