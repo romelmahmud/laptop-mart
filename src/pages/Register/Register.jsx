@@ -31,26 +31,82 @@ const Register = () => {
   }
 
   const handleRegister = (data) => {
+    console.log(data);
     setRegisterError("");
-    createUser(data.email, data.password)
-      .then((result) => {
-        const user = result.user;
-        console.log(user);
-        toast.success("User Created Successfully.");
-        const userInfo = {
-          displayName: data.name,
-        };
-        updateUserProfile(userInfo)
-          .then(() => {
-            saveUser(data.name, data.email, data.role);
-            console.log(user);
-          })
-          .catch((err) => console.log(err));
+    if (data.profileImage[0]) {
+      const formData = new FormData();
+      formData.append("image", data.profileImage[0]);
+
+      // uploading Image on ImgBB
+
+      const url = `https://api.imgbb.com/1/upload?key=${process.env.REACT_APP_IMGBB_API_KEY}`;
+
+      fetch(url, {
+        method: "POST",
+        body: formData,
       })
-      .catch((error) => {
-        console.log(error);
-        toast.error(error.message);
-      });
+        .then((res) => res.json())
+        .then((result) => {
+          const photo_url = result.data.display_url;
+
+          createUser(data.email, data.password)
+            .then((result) => {
+              const user = result.user;
+              console.log(user);
+              toast.success("User Created Successfully.");
+              const userInfo = {
+                displayName: data.name,
+                photo_url,
+              };
+              updateUserProfile(userInfo)
+                .then(() => {
+                  saveUser(
+                    data.name,
+                    data.email,
+                    data.role,
+                    data.location,
+                    photo_url
+                  );
+                  console.log(user);
+                })
+
+                .catch((err) => console.log(err));
+            })
+            .catch((error) => {
+              console.log(error);
+              toast.error(error.message);
+            })
+            .catch((err) => console.log(err));
+        });
+    } else {
+      const photo_url = "";
+      createUser(data.email, data.password)
+        .then((result) => {
+          const user = result.user;
+          console.log(user);
+          toast.success("User Created Successfully.");
+          const userInfo = {
+            displayName: data.name,
+          };
+          updateUserProfile(userInfo)
+            .then(() => {
+              saveUser(
+                data.name,
+                data.email,
+                data.role,
+                data.location,
+                photo_url
+              );
+              console.log(user);
+            })
+
+            .catch((err) => console.log(err));
+        })
+        .catch((error) => {
+          console.log(error);
+          toast.error(error.message);
+        });
+    }
   };
 
   const handleGoogleLogin = () => {
@@ -60,7 +116,10 @@ const Register = () => {
         const name = user.displayName;
         const email = user.email;
         const role = "buyer";
-        saveUser(name, email, role);
+        const location = "Dhaka";
+        const photo_url = user.photo_url;
+
+        saveUser(name, email, role, location, photo_url);
         navigate(from, { replace: true });
         toast.success("Google Login Successful");
       })
@@ -68,8 +127,8 @@ const Register = () => {
   };
 
   // save user on database
-  const saveUser = (name, email, role) => {
-    const userInfo = { name, email, role };
+  const saveUser = (name, email, role, location, photo_url) => {
+    const userInfo = { name, email, role, location, photo_url };
     fetch("http://localhost:8000/users", {
       method: "POST",
       headers: {
@@ -152,9 +211,8 @@ const Register = () => {
                   {...register("role")}
                   className="select select-bordered w-full border-gray-400 bg-gray-50"
                 >
-                  <option selected value="buyer">
-                    Buyer
-                  </option>
+                  <option>Buyer/Seller</option>
+                  <option value="buyer">Buyer</option>
                   <option value="seller">Seller</option>
                 </select>
               </div>
