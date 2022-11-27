@@ -146,6 +146,7 @@ const Register = () => {
                   <p className="text-red-500">{errors.password.message}</p>
                 )}
               </div>
+
               <div className="col-span-9 ">
                 <select
                   {...register("role")}
@@ -156,6 +157,34 @@ const Register = () => {
                   </option>
                   <option value="seller">Seller</option>
                 </select>
+              </div>
+              <div className="col-span-12">
+                <input
+                  type="text"
+                  placeholder="location"
+                  {...register("location", {
+                    required: "location is required",
+                  })}
+                  className="input input-bordered w-full border-gray-400 bg-gray-50  text-gray-600 "
+                />
+                {errors.location && (
+                  <p className="text-red-500">{errors.location.message}</p>
+                )}
+              </div>
+              <div className="col-span-12 ">
+                <label className="label">
+                  <span className="label-text text-md font-regular text-gray-500">
+                    Upload Image
+                  </span>
+                </label>
+                <input
+                  type="file"
+                  {...register("profileImage")}
+                  className="file-input file-input-bordered w-full border-gray-400 bg-gray-50  text-gray-600"
+                />
+                {errors.profileImage && (
+                  <p className="text-red-500">{errors.profileImage.message}</p>
+                )}
               </div>
 
               <div className="col-span-12 sm:flex sm:items-center sm:gap-4">
