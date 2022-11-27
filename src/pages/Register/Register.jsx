@@ -31,7 +31,6 @@ const Register = () => {
   }
 
   const handleRegister = (data) => {
-    // console.log(data);
     setRegisterError("");
     createUser(data.email, data.password)
       .then((result) => {

@@ -28,9 +28,7 @@ const AddProduct = () => {
   const handleAddProduct = (data) => {
     const formData = new FormData();
     formData.append("image", data.productImage[0]);
-
     // uploading Image on ImgBB
-
     const url = `https://api.imgbb.com/1/upload?key=${process.env.REACT_APP_IMGBB_API_KEY}`;
 
     fetch(url, {
@@ -61,7 +59,12 @@ const AddProduct = () => {
         };
 
         axios
-          .post("http://localhost:8000/products", productInfo)
+          .post("http://localhost:8000/products", productInfo, {
+            headers: {
+              authorization: `bearer ${localStorage.getItem("accessToken")}`,
+            },
+          })
+
           .then((res) => {
             if (res.data.acknowledged) {
               toast.success("Product added successfully");

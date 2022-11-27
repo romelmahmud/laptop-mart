@@ -8,8 +8,6 @@ const useCheckBuyer = (email) => {
       fetch(`http://localhost:8000/users/buyer/${email}`)
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
-          setIsBuyer(data.isBuyer);
           setIsBuyerLoading(false);
         });
     }

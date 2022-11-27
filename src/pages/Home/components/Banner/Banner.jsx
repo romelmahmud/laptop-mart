@@ -7,12 +7,12 @@ const Banner = () => {
     <div>
       <div className="py-20 ">
         <Container>
-          <div className="hero-content flex-col lg:flex-row-reverse">
-            <div className="w-3/5">
+          <div className="hero-content flex-col md:flex-row-reverse">
+            <div className="w-full md:w-3/5">
               <img src={bannerImg} className="" alt="" />
             </div>
-            <div className="w-2/5 lg:mr-5">
-              <h1 className="text-6xl font-bold">
+            <div className="w-full md:w-2/5 md:mr-4">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold">
                 Buy Or Sell <br />
                 Used Laptop
               </h1>
