@@ -39,37 +39,45 @@ const AddProduct = () => {
       .then((imgData) => {
         const imgUrl = imgData.data.display_url;
 
-        const date = format(new Date(), "PP");
+        fetch(`http://localhost:8000/categories/${data.category}`)
+          .then((res) => res.json())
+          .then((id) => {
+            const categoryId = id;
+            const date = format(new Date(), "PP");
 
-        const productInfo = {
-          name: data.name,
-          category: data.category,
-          condition: data.condition,
-          description: data.description,
-          location: data.location,
-          originalPrice: data.originalPrice,
-          resalePrice: data.resalePrice,
-          productImage: imgUrl,
-          purchaseYear: data.purchaseYear,
-          yearOfUses: data.yearOfUses,
-          sellerEmail: user.email,
-          sellerName: user.displayName,
-          created: date,
-          status: "unsold",
-        };
+            const productInfo = {
+              name: data.name,
+              category: data.category,
+              categoryId,
+              condition: data.condition,
+              description: data.description,
+              location: data.location,
+              originalPrice: data.originalPrice,
+              resalePrice: data.resalePrice,
+              productImage: imgUrl,
+              purchaseYear: data.purchaseYear,
+              yearOfUses: data.yearOfUses,
+              sellerEmail: user.email,
+              sellerName: user.displayName,
+              created: date,
+              status: "unsold",
+            };
 
-        axios
-          .post("http://localhost:8000/products", productInfo, {
-            headers: {
-              authorization: `bearer ${localStorage.getItem("accessToken")}`,
-            },
-          })
+            axios
+              .post("http://localhost:8000/products", productInfo, {
+                headers: {
+                  authorization: `bearer ${localStorage.getItem(
+                    "accessToken"
+                  )}`,
+                },
+              })
 
-          .then((res) => {
-            if (res.data.acknowledged) {
-              toast.success("Product added successfully");
-              navigate("/dashboard/myproducts");
-            }
+              .then((res) => {
+                if (res.data.acknowledged) {
+                  toast.success("Product added successfully");
+                  navigate("/dashboard/myproducts");
+                }
+              });
           });
       });
   };
