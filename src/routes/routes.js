@@ -14,7 +14,10 @@ import Error from "../pages/Error/Error";
 import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
+import AdminRoute from "./AdminRoute/AdminRoute";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
+import SellerRoute from "./SellerRoute/SellerRoute";
+import BuyerRoute from "./BuyerRoute/BuyerRoute";
 
 export const routes = createBrowserRouter([
   {
@@ -50,7 +53,11 @@ export const routes = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <DashboardLayout />,
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
     errorElement: <Error />,
     children: [
       {
@@ -58,28 +65,54 @@ export const routes = createBrowserRouter([
         element: <Dashboard />,
       },
       {
+        path: "/dashboard/myorders",
+        element: (
+          <BuyerRoute>
+            <MyOrder />
+          </BuyerRoute>
+        ),
+      },
+      {
         path: "/dashboard/addproduct",
-        element: <AddProduct />,
+        element: (
+          <SellerRoute>
+            <AddProduct />
+          </SellerRoute>
+        ),
+      },
+
+      {
+        path: "/dashboard/myproducts",
+        element: (
+          <SellerRoute>
+            <MyProducts />
+          </SellerRoute>
+        ),
       },
       {
         path: "/dashboard/allbuyers",
-        element: <AllBuyers />,
+        element: (
+          <AdminRoute>
+            <AllBuyers />
+          </AdminRoute>
+        ),
       },
       {
         path: "/dashboard/allsellers",
-        element: <AllSellers />,
+        element: (
+          <AdminRoute>
+            <AllSellers />
+          </AdminRoute>
+        ),
       },
-      {
-        path: "/dashboard/myproducts",
-        element: <MyProducts />,
-      },
-      {
-        path: "/dashboard/myorders",
-        element: <MyOrder />,
-      },
+
       {
         path: "/dashboard/reportedproducts",
-        element: <ReportedProducts />,
+        element: (
+          <AdminRoute>
+            <ReportedProducts />
+          </AdminRoute>
+        ),
       },
     ],
   },
