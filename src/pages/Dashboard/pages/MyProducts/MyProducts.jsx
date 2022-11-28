@@ -16,7 +16,7 @@ const MyProducts = () => {
     queryKey: ["myproducts"],
     queryFn: async () => {
       const data = await axios.get(
-        `http://localhost:8000/seller/products/${user.email}`,
+        `https://y-kappa-green.vercel.app/seller/products/${user.email}`,
         {
           headers: {
             authorization: `bearer ${localStorage.getItem("accessToken")}`,
@@ -29,7 +29,7 @@ const MyProducts = () => {
 
   const handleDelete = (id) => {
     axios
-      .delete(`http://localhost:8000/seller/products/${id}`, {
+      .delete(`https://y-kappa-green.vercel.app/seller/products/${id}`, {
         headers: {
           authorization: `bearer ${localStorage.getItem("accessToken")}`,
         },
@@ -44,7 +44,7 @@ const MyProducts = () => {
 
   const handleAdvertiseUpdate = (id) => {
     axios
-      .get(`http://localhost:8000/products/advertise/${id}`, {
+      .get(`https://y-kappa-green.vercel.app/products/advertise/${id}`, {
         headers: {
           authorization: `bearer ${localStorage.getItem("accessToken")}`,
         },

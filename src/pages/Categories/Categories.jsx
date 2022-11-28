@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -6,15 +6,21 @@ import Spinner from "../../shared/Spinner/Spinner";
 import Container from "../../shared/Container/Container";
 import CategoryButton from "../Home/components/Categories/CategoryButton";
 import ProductCard from "./ProductCard";
+import BookModal from "./BookModal";
 
 const Categories = () => {
   const { id } = useParams();
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
-  const { data: products, isLoading } = useQuery({
+  const {
+    data: products = [],
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["products", id],
     queryFn: async () => {
       const data = await axios.get(
-        `http://localhost:8000/category/products/${id}`,
+        `https://y-kappa-green.vercel.app/category/products/${id}`,
         {
           headers: {
             authorization: `bearer ${localStorage.getItem("accessToken")}`,
@@ -27,7 +33,9 @@ const Categories = () => {
   const { data: categories, isLoading: categoriesLoading } = useQuery({
     queryKey: ["categories"],
     queryFn: async () => {
-      const data = await axios.get("http://localhost:8000/categories");
+      const data = await axios.get(
+        "https://y-kappa-green.vercel.app/categories"
+      );
       return data.data;
     },
   });
@@ -53,9 +61,19 @@ const Categories = () => {
         </div>
         <div className="mt-20 space-y-10">
           {products?.map((product) => (
-            <ProductCard key={product._id} product={product} />
+            <ProductCard
+              key={product._id}
+              product={product}
+              setSelectedProduct={setSelectedProduct}
+            />
           ))}
         </div>
+
+        <BookModal
+          selectedProduct={selectedProduct}
+          setSelectedProduct={setSelectedProduct}
+          refetch={refetch}
+        ></BookModal>
       </Container>
     </div>
   );

@@ -5,7 +5,7 @@ const useCheckAdmin = (email) => {
   const [isAdminLoading, setIsAdminLoading] = useState(true);
   useEffect(() => {
     if (email) {
-      fetch(`http://localhost:8000/users/admin/${email}`)
+      fetch(`https://y-kappa-green.vercel.app/users/admin/${email}`)
         .then((res) => res.json())
         .then((data) => {
           // console.log(data);

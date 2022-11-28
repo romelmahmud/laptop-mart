@@ -9,7 +9,9 @@ const Categories = () => {
   const { data: categories, isLoading } = useQuery({
     queryKey: ["categories"],
     queryFn: async () => {
-      const data = await axios.get("http://localhost:8000/categories");
+      const data = await axios.get(
+        "https://y-kappa-green.vercel.app/categories"
+      );
       return data.data;
     },
   });

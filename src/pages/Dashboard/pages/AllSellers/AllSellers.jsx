@@ -14,11 +14,14 @@ const AllBuyers = () => {
   } = useQuery({
     queryKey: ["allSellers"],
     queryFn: async () => {
-      const data = await axios.get(`http://localhost:8000/users/sellers`, {
-        headers: {
-          authorization: `bearer ${localStorage.getItem("accessToken")}`,
-        },
-      });
+      const data = await axios.get(
+        `https://y-kappa-green.vercel.app/users/sellers`,
+        {
+          headers: {
+            authorization: `bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
       return data.data;
     },
   });
@@ -26,7 +29,7 @@ const AllBuyers = () => {
   const handleDelete = (id) => {
     setIsLoadingDelete(false);
     axios
-      .delete(`http://localhost:8000/users/sellers/${id}`, {
+      .delete(`https://y-kappa-green.vercel.app/users/sellers/${id}`, {
         headers: {
           authorization: `bearer ${localStorage.getItem("accessToken")}`,
         },
@@ -41,7 +44,7 @@ const AllBuyers = () => {
   const handleVerify = (id) => {
     setIsLoadingDelete(false);
     axios
-      .get(`http://localhost:8000/users/sellers/${id}`, {
+      .get(`https://y-kappa-green.vercel.app/users/sellers/${id}`, {
         headers: {
           authorization: `bearer ${localStorage.getItem("accessToken")}`,
         },

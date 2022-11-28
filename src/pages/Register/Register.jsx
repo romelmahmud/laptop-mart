@@ -129,7 +129,7 @@ const Register = () => {
   // save user on database
   const saveUser = (name, email, role, location, photo_url) => {
     const userInfo = { name, email, role, location, photo_url };
-    fetch("http://localhost:8000/users", {
+    fetch("https://y-kappa-green.vercel.app/users", {
       method: "POST",
       headers: {
         "content-type": "application/json",

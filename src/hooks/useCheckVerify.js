@@ -5,7 +5,7 @@ const useCheckVerify = (email) => {
   const [isVerifyLoading, setIsVerifyLoading] = useState(true);
   useEffect(() => {
     if (email) {
-      fetch(`http://localhost:8000/seller/${email}`)
+      fetch(`https://y-kappa-green.vercel.app/seller/${email}`)
         .then((res) => res.json())
         .then((data) => {
           // console.log(data);

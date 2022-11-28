@@ -1,7 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import DashboardLayout from "../layout/DashboardLayout/DashboardLayout";
 import Main from "../layout/Main/Main";
-import BLog from "../pages/Blog/BLog";
 import Categories from "../pages/Categories/Categories";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import AddProduct from "../pages/Dashboard/pages/AddProduct/AddProduct";
@@ -18,6 +17,7 @@ import AdminRoute from "./AdminRoute/AdminRoute";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
 import SellerRoute from "./SellerRoute/SellerRoute";
 import BuyerRoute from "./BuyerRoute/BuyerRoute";
+import Blog from "../pages/Blog/Blog";
 
 export const routes = createBrowserRouter([
   {
@@ -39,7 +39,7 @@ export const routes = createBrowserRouter([
       },
       {
         path: "/blog",
-        element: <BLog />,
+        element: <Blog />,
       },
       {
         path: "/categories/:id",

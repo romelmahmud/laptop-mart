@@ -5,7 +5,7 @@ const useCheckSeller = (email) => {
   const [isSellerLoading, setIsSellerLoading] = useState(true);
   useEffect(() => {
     if (email) {
-      fetch(`http://localhost:8000/users/seller/${email}`)
+      fetch(`https://y-kappa-green.vercel.app/users/seller/${email}`)
         .then((res) => res.json())
         .then((data) => {
           // console.log(data);

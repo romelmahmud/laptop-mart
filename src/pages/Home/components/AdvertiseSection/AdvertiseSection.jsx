@@ -9,7 +9,9 @@ const AdvertiseSection = () => {
   const { data: advertiseProducts, isLoading } = useQuery({
     queryKey: ["advertiseProducts"],
     queryFn: async () => {
-      const data = await axios.get("http://localhost:8000/products/advertise/");
+      const data = await axios.get(
+        "https://y-kappa-green.vercel.app/products/advertise/"
+      );
       return data.data;
     },
   });

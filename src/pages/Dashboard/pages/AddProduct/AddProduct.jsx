@@ -20,7 +20,9 @@ const AddProduct = () => {
   const { data: categories, isLoading } = useQuery({
     queryKey: ["categories"],
     queryFn: async () => {
-      const data = await axios.get("http://localhost:8000/categories");
+      const data = await axios.get(
+        "https://y-kappa-green.vercel.app/categories"
+      );
       return data.data;
     },
   });
@@ -39,7 +41,7 @@ const AddProduct = () => {
       .then((imgData) => {
         const imgUrl = imgData.data.display_url;
 
-        fetch(`http://localhost:8000/categories/${data.category}`)
+        fetch(`https://y-kappa-green.vercel.app/categories/${data.category}`)
           .then((res) => res.json())
           .then((id) => {
             const categoryId = id;
@@ -64,7 +66,7 @@ const AddProduct = () => {
             };
 
             axios
-              .post("http://localhost:8000/products", productInfo, {
+              .post("https://y-kappa-green.vercel.app/products", productInfo, {
                 headers: {
                   authorization: `bearer ${localStorage.getItem(
                     "accessToken"
