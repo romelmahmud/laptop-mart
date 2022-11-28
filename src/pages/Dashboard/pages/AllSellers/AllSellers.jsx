@@ -38,7 +38,20 @@ const AllBuyers = () => {
       });
   };
 
-  const handleVerify = (id) => {};
+  const handleVerify = (id) => {
+    setIsLoadingDelete(false);
+    axios
+      .get(`http://localhost:8000/users/sellers/${id}`, {
+        headers: {
+          authorization: `bearer ${localStorage.getItem("accessToken")}`,
+        },
+      })
+      .then((res) => {
+        isLoadingDelete(true);
+        toast.success("Seller Verified successfully");
+        refetch();
+      });
+  };
 
   if (isLoading) {
     return <Spinner />;
