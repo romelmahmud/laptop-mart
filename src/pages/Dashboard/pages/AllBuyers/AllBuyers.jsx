@@ -1,13 +1,12 @@
-import React, { useContext } from "react";
+import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { AuthContext } from "../../../../context/auth/authContext";
 import Spinner from "../../../../shared/Spinner/Spinner";
 import Avatar from "../../../../assets/images/avatar.jpg";
 import toast from "react-hot-toast";
 
 const AllBuyers = () => {
-  const { user } = useContext(AuthContext);
+  const [isLoadingDelete, setIsLoadingDelete] = useState(false);
 
   const {
     data: buyers,
@@ -26,28 +25,31 @@ const AllBuyers = () => {
   });
 
   const handleDelete = (id) => {
-    // axios
-    //   .delete(`http://localhost:8000/seller/products/${id}`, {
-    //     headers: {
-    //       authorization: `bearer ${localStorage.getItem("accessToken")}`,
-    //     },
-    //   })
-    //   .then((res) => {
-    //     if (res.data.acknowledged) {
-    //       toast.success("Product Deleted successfully");
-    //       refetch();
-    //     }
-    //   });
+    setIsLoadingDelete(true);
+    axios
+      .delete(`http://localhost:8000/users/buyers/${id}`, {
+        headers: {
+          authorization: `bearer ${localStorage.getItem("accessToken")}`,
+        },
+      })
+      .then((res) => {
+        setIsLoadingDelete(false);
+        toast.success("Product Deleted successfully");
+        refetch();
+      });
   };
 
   if (isLoading) {
     return <Spinner />;
   }
 
+  if (isLoadingDelete) {
+    return <Spinner />;
+  }
   return (
     <div className="py-20">
       <h2 className="text-center text-2xl font-semibold mb-5">
-        Total {buyers.length} Sellers
+        Total {buyers.length} Buyers
       </h2>
       <div className="overflow-x-auto">
         <table className="table w-full">

@@ -1,69 +1,57 @@
-import React, { useContext } from "react";
+import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { AuthContext } from "../../../../context/auth/authContext";
 import Spinner from "../../../../shared/Spinner/Spinner";
+import Avatar from "../../../../assets/images/avatar.jpg";
 import toast from "react-hot-toast";
 
-const AllSeller = () => {
-  const { user } = useContext(AuthContext);
-
+const AllBuyers = () => {
+  const [isLoadingDelete, setIsLoadingDelete] = useState(false);
   const {
-    data: products,
+    data: sellers,
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["allSeller"],
+    queryKey: ["allSellers"],
     queryFn: async () => {
-      const data = await axios.get(
-        `http://localhost:8000/seller/products/${user.email}`,
-        {
-          headers: {
-            authorization: `bearer ${localStorage.getItem("accessToken")}`,
-          },
-        }
-      );
+      const data = await axios.get(`http://localhost:8000/users/sellers`, {
+        headers: {
+          authorization: `bearer ${localStorage.getItem("accessToken")}`,
+        },
+      });
       return data.data;
     },
   });
 
   const handleDelete = (id) => {
+    setIsLoadingDelete(false);
     axios
-      .delete(`http://localhost:8000/seller/products/${id}`, {
+      .delete(`http://localhost:8000/users/sellers/${id}`, {
         headers: {
           authorization: `bearer ${localStorage.getItem("accessToken")}`,
         },
       })
       .then((res) => {
-        if (res.data.acknowledged) {
-          toast.success("Product Deleted successfully");
-          refetch();
-        }
+        isLoadingDelete(true);
+        toast.success("Seller Delete successfully");
+        refetch();
       });
   };
 
-  const handleAdvertiseUpdate = (id) => {
-    axios
-      .get(`http://localhost:8000/products/advertise/${id}`, {
-        headers: {
-          authorization: `bearer ${localStorage.getItem("accessToken")}`,
-        },
-      })
-      .then((res) => {
-        if (res.data.acknowledged) {
-          toast.success("Product advertise successfully");
-          refetch();
-        }
-      });
-  };
+  const handleVerify = (id) => {};
+
   if (isLoading) {
+    return <Spinner />;
+  }
+
+  if (isLoadingDelete) {
     return <Spinner />;
   }
 
   return (
     <div className="py-20">
-      <h2 className="text-center text-2xl font-semibold">
-        You have {products.length} products
+      <h2 className="text-center text-2xl font-semibold mb-5">
+        Total {sellers.length} Sellers
       </h2>
       <div className="overflow-x-auto">
         <table className="table w-full">
@@ -72,44 +60,43 @@ const AllSeller = () => {
               <th></th>
               <th>Image</th>
               <th>Name</th>
-              <th>Price</th>
-              <th>Status</th>
-              <th>Advertise</th>
+              <th>Email</th>
+              <th>Location</th>
+              <th>Verify</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {products?.map((product, i) => (
-              <tr key={product._id}>
+            {sellers?.map((seller, i) => (
+              <tr key={seller._id}>
                 <th>{i + 1}</th>
                 <td>
                   <div className="avatar">
-                    <div className=" w-12 h-12">
+                    <div className=" w-12 h-12 rounded-full">
                       <img
-                        src={product.productImage}
-                        alt="Avatar Tailwind CSS Component"
+                        src={seller.photo_url ? seller.photo_url : Avatar}
+                        alt={seller.name}
                       />
                     </div>
                   </div>
                 </td>
-                <td>{product.name}</td>
-                <td>{product.resalePrice}</td>
-                <td>{product.status}</td>
+                <td>{seller.name}</td>
+                <td>{seller.email}</td>
+                <td>{seller.location}</td>
                 <td>
-                  {product.status === "unsold" ? (
+                  {!seller.varified && (
                     <button
-                      onClick={() => handleAdvertiseUpdate(product._id)}
-                      className="btn btn-outline btn-sm btn-primary "
+                      onClick={() => handleVerify(seller._id)}
+                      className="btn btn-info btn-outline btn-sm"
                     >
-                      Advertise
+                      Verify
                     </button>
-                  ) : (
-                    <button></button>
                   )}
                 </td>
+
                 <td>
                   <button
-                    onClick={() => handleDelete(product._id)}
+                    onClick={() => handleDelete(seller._id)}
                     className="btn btn-error btn-outline btn-sm"
                   >
                     Delete
@@ -124,4 +111,4 @@ const AllSeller = () => {
   );
 };
 
-export default AllSeller;
+export default AllBuyers;
