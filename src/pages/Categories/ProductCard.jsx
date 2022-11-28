@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { CheckBadgeIcon } from "@heroicons/react/24/solid";
 
 const ProductCard = ({ product }) => {
   const {
@@ -15,6 +16,17 @@ const ProductCard = ({ product }) => {
     sellerEmail,
     sellerName,
   } = product;
+  const [isVerified, setIsVerified] = useState(false);
+
+  useEffect(() => {
+    fetch(`http://localhost:8000/seller/${sellerEmail}`)
+      .then((res) => res.json())
+      .then((data) => {
+        // console.log(data);
+        isVerified(data.isVerified);
+      });
+  }, [sellerEmail, isVerified]);
+
   return (
     <div className="card lg:card-side bg-gray-50 shadow-md border rounded-md">
       <figure>
@@ -32,6 +44,9 @@ const ProductCard = ({ product }) => {
         <p>
           <span className="font-medium text-gray-800">Seller: </span>
           {sellerName}{" "}
+          {isVerified && (
+            <CheckBadgeIcon className="h-6 w-6 text-blue-500 inline" />
+          )}
         </p>
         <p>
           {" "}
