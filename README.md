@@ -1,5 +1,5 @@
 # Laptop mart
-Website about web development. User can enroll which courses he or she likes.
+
 
 [Live Website Link:](https://laptop-mart-388bb.web.app/)
 
