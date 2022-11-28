@@ -27,9 +27,20 @@ const MyProducts = () => {
     },
   });
 
-  if (isLoading) {
-    return <Spinner />;
-  }
+  const handleDelete = (id) => {
+    axios
+      .delete(`http://localhost:8000/seller/products/${id}`, {
+        headers: {
+          authorization: `bearer ${localStorage.getItem("accessToken")}`,
+        },
+      })
+      .then((res) => {
+        if (res.data.acknowledged) {
+          toast.success("Product Deleted successfully");
+          refetch();
+        }
+      });
+  };
 
   const handleAdvertiseUpdate = (id) => {
     axios
@@ -45,6 +56,9 @@ const MyProducts = () => {
         }
       });
   };
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return (
     <div className="py-20">
@@ -60,7 +74,8 @@ const MyProducts = () => {
               <th>Name</th>
               <th>Price</th>
               <th>Status</th>
-              <th>Actions</th>
+              <th>Advertise</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -84,13 +99,21 @@ const MyProducts = () => {
                   {product.status === "unsold" ? (
                     <button
                       onClick={() => handleAdvertiseUpdate(product._id)}
-                      className="btn btn-outline btn-sm "
+                      className="btn btn-outline btn-sm btn-primary "
                     >
                       Advertise
                     </button>
                   ) : (
                     <button></button>
                   )}
+                </td>
+                <td>
+                  <button
+                    onClick={() => handleDelete(product._id)}
+                    className="btn btn-error btn-outline btn-sm"
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
